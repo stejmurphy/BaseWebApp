@@ -33,6 +33,19 @@
 
 
   <button onClick="HandleSignIn()">Login</button>
+
+  <form onSubmit="handleMessageFormSubmit()" action="#">
+    <label>Title:</label><br>
+    <input id="post-title"><br>
+    <label>Message:</label><br>
+    <textarea id="post-body"></textarea><br>
+    <button id="submit">Submit</button>
+  </form>
+
+
+  <div id="post-listing">
+    
+  </div>
   
 </body>
 

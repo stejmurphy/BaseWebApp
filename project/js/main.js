@@ -1,3 +1,10 @@
+$(document).ready(function(){
+  getPosts();
+});
+
+
+
+
 function showPicture(){
   // use jQuery ($ is shorthand) to find the div on the page and then change the html
   // 'rounded-circle' is a bootstrap thing! Check out more here: http://getbootstrap.com/css/
@@ -50,3 +57,44 @@ function HandleSignIn() {
     // ...
   });
 }
+function addMessage(postTitle, postBody) {
+  var postData = {
+    title: postTitle,
+    body: postBody
+  }
+
+  var database = firebase.database().ref("posts");
+  // Create a new post reference with an auto-generated id
+  var newPostRef = database.push();
+  newPostRef.set(postData, function(error) {
+    if (error) {
+      // The write failed...
+    } else {
+      // Data saved successfully!
+      window.location.reload();
+    }
+  });
+}
+
+function handleMessageFormSubmit() {
+  var postTitle = $('#post-title').val();
+  var postBody = $('#post-body').val();
+  console.log(postTitle);
+
+  addMessage(postTitle, postBody);
+
+}
+
+function getPosts(){
+
+  return firebase.database().ref("posts").once('value').then(function(snapshot) {
+    var posts = (snapshot.val());
+    console.log(posts);
+
+    for(var postKey in posts) {
+        var post = posts[postKey];
+        $("#post-listing").append("<div>"+post.title+" - "+post.body+"</div>");
+    }
+  });
+
+} 
